@@ -1,14 +1,16 @@
-// components/ui/icons.tsx
-
 import React from "react";
+import { cn } from "@/shared/utils";
+import { CircleX, CheckCircle } from "lucide-react";
 
-// ====================================================================
-// Komponen #1: Logo Spesial (KanbanlyIcon atau kita sebut KanbanlyLogo)
-// ====================================================================
-// Ini adalah komponen utuh, diekspor langsung.
-export const KanbanlyLogo = () => {
+export const KanbanlyLogo = ({
+  useText = true,
+  className,
+}: {
+  useText?: boolean;
+  className?: string;
+}) => {
   return (
-    <div className="flex items-center space-x-1">
+    <div className={cn("flex items-center space-x-1", className)}>
       <svg
         width="32"
         height="32"
@@ -60,15 +62,12 @@ export const KanbanlyLogo = () => {
           strokeLinejoin="round"
         />
       </svg>
-      <span className="text-xl font-bold text-foreground">Kanbanly</span>
+      {useText && (
+        <span className="text-xl font-bold text-foreground">Kanbanly</span>
+      )}
     </div>
   );
 };
-
-// ====================================================================
-// Komponen #2: Pabrik Ikon (Sistem <Icon name="..." />)
-// ====================================================================
-// Di sini kita definisikan ikon-ikon simpel yang bisa di-styling.
 
 const PlusIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -102,9 +101,36 @@ const CloseIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const ErrorIcon = ({ className }: { className?: string }) => (
+  <div
+    className={cn(
+      "flex items-center justify-center w-18 h-18 rounded-full bg-[var(--error-bg)]",
+      className
+    )}
+  >
+    <CircleX className="w-9 h-9 text-[var(--error-color)]" strokeWidth={2.5} />
+  </div>
+);
+
+const SuccessIcon = ({ className }: { className?: string }) => (
+  <div
+    className={cn(
+      "flex items-center justify-center w-18 h-18 rounded-full bg-[var(--success-bg)]",
+      className
+    )}
+  >
+    <CheckCircle
+      className="w-9 h-9 text-[var(--success)]"
+      strokeWidth={2.5}
+    />
+  </div>
+);
+
 const iconMap = {
   plus: PlusIcon,
   close: CloseIcon,
+  error: ErrorIcon,
+  success: SuccessIcon,
 };
 
 export type IconName = keyof typeof iconMap;

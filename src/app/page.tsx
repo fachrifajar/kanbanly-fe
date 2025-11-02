@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui";
+import { cn } from "@/shared/utils";
+import { Button } from "@/shared/components";
 
 export default function Home() {
   const headingClass = cn("text-foreground font-extrabold leading-tight mb-6");

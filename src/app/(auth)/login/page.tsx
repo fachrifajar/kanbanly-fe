@@ -1,5 +1,11 @@
 "use client";
 
-export default function LoginPage({ className, ...props }) {
-  return <div>Login</div>;
+import { AuthForm } from "@/features/auth/components/AuthForm";
+
+export default function LoginPage() {
+  return (
+    <div>
+      <AuthForm type="login" />
+    </div>
+  );
 }
