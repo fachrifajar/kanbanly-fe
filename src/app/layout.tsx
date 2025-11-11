@@ -31,21 +31,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ZustandHydration>
-          <ReactQueryProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ZustandHydration>
+            <ReactQueryProvider>
               <Navbar />
               <div>{children}</div>
-              {/* ✅ Toaster HARUS di luar {children}! */}
               <SonnerProvider />
-            </ThemeProvider>
-          </ReactQueryProvider>
-        </ZustandHydration>
+            </ReactQueryProvider>
+          </ZustandHydration>
+        </ThemeProvider>
       </body>
     </html>
   );

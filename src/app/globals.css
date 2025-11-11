@@ -100,6 +100,8 @@
   --ring: hsl(161 67% 35%);
 
   --skeleton: color-mix(in hsl, var(--card) 90%, black);
+
+  --backdrop: rgba(0, 0, 0, 0.4);
 }
 
 .dark {
@@ -152,6 +154,8 @@
   --ring: hsl(161 67% 51%);
 
   --skeleton: color-mix(in hsl, var(--card) 85%, white);
+
+  --backdrop: rgba(0, 0, 0, 0.55);
 }
 
 @layer base {

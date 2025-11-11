@@ -7,7 +7,7 @@ import { ResendVerificationPayload } from "@/features/interface";
 export const useResendVerificationMutation = () => {
   return useMutation({
     mutationFn: (payload: ResendVerificationPayload) =>
-      AuthService.ResendEmailVerification(payload),
+      AuthService?.resendEmailVerification(payload),
     onSuccess: (data) => {
       toast.success("Verification email sent!", {
         description:

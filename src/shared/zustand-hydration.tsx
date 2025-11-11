@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+// import { LoadingBackdrop } from "./components";
 
 export function ZustandHydration({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
@@ -10,7 +11,7 @@ export function ZustandHydration({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (!hydrated) {
-    return <div suppressHydrationWarning>{/* spinner */}</div>;
+    return <div suppressHydrationWarning>{/* <LoadingBackdrop open /> */}</div>;
   }
 
   return <>{children}</>;

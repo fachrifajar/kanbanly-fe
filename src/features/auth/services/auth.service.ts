@@ -31,10 +31,18 @@ export const AuthService = {
     return data;
   },
 
-  async ResendEmailVerification(payload: ResendVerificationPayload) {
+  async resendEmailVerification(payload: ResendVerificationPayload) {
     const url = API_ENDPOINTS?.auth?.resendVerification;
 
     const { data } = await apiClient.post(url, payload);
+
+    return data;
+  },
+
+  async logout() {
+    const url = API_ENDPOINTS?.auth?.logout;
+
+    const { data } = await apiClient.post(url);
 
     return data;
   },

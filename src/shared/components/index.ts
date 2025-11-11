@@ -38,3 +38,4 @@ export { ThemeProvider } from "./theme-provider";
 export * from "./ui/sonner-provider";
 export * from "./ui/skeleton";
 export * from "./ui/menubar";
+export * from "./ui/loading-backdrop";

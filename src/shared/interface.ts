@@ -20,3 +20,8 @@ export interface UseToastClickAwayOptions {
   delay?: number;
   onDismiss?: () => void;
 }
+
+export interface LoadingBackdropProps {
+  open: boolean;
+  blur?: boolean;
+}

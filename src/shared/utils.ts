@@ -16,3 +16,15 @@ export function handleAxiosError(error: unknown, fallbackMessage: string) {
     toast.error(fallbackMessage);
   }
 }
+
+export const PUBLIC_ROUTES = new Set([
+  "/",
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/verify",
+]);
+
+export function isAuthRoute(pathname: string) {
+  return PUBLIC_ROUTES.has(pathname);
+}
