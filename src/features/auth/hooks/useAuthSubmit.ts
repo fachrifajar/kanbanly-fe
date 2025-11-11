@@ -1,5 +1,5 @@
 import { useRegisterMutation } from "@/features/auth/api/register.mutation";
-// import { useLogin } from "./useLogin";
+import { useLoginMutation } from "@/features/auth/api/login.mutation";
 import { UseAuthSubmitProps } from "@/features/interface";
 
 export const useAuthSubmit = ({
@@ -10,9 +10,13 @@ export const useAuthSubmit = ({
   const {
     mutate: register,
     isPending: isRegisterPending,
-    data,
+    data: registerData,
   } = useRegisterMutation();
-  // const { mutate: login, isPending: isLoginPending } = useLogin();
+  const {
+    mutate: login,
+    isPending: isLoginPending,
+    data: loginData,
+  } = useLoginMutation();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,17 +32,17 @@ export const useAuthSubmit = ({
         username: formValues.username!,
       });
     } else {
-      // login({
-      //   email: formValues.email,
-      //   password: formValues.password,
-      // });
+      login({
+        email: formValues.email,
+        password: formValues.password,
+      });
     }
   };
 
   return {
     handleSubmit,
-    isPending: isRegisterPending,
-    data,
-    // isPending: type === "register" ? isRegisterPending : isLoginPending,
+    registerData,
+    isPending: type === "register" ? isRegisterPending : isLoginPending,
+    loginData,
   };
 };

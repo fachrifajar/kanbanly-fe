@@ -87,6 +87,11 @@ export const useAuthForm = ({ type }: { type: string }) => {
 
   useEffect(() => {
     if (type === "login") {
+      if (email.error || password.error || !email.value || !password.value) {
+        setIsDisabled(true);
+      } else {
+        setIsDisabled(false);
+      }
     } else {
       if (
         email.error ||

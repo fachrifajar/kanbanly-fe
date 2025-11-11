@@ -1,6 +1,7 @@
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useToastClickAway } from "@/shared/hooks/useToastClickAway";
 import { TOAST_CONFIG, TOKEN_ERROR_TYPES } from "../constants";
 import { UseVerifyToastOptions, ToastConfig } from "@/features/interface";
 
@@ -9,7 +10,7 @@ export function useVerifyToast({
   isClient,
 }: UseVerifyToastOptions) {
   const router = useRouter();
-  const toastIdRef = useRef<string | number | null>(null);
+  const [toastId, setToastId] = useState<string | number | null>(null);
 
   const { isTokenInvalid, isTokenExpired } = useMemo(
     () => ({
@@ -19,27 +20,10 @@ export function useVerifyToast({
     [verifyData?.error]
   );
 
-  // Memoized dismiss handler
-  const handleDismiss = useCallback(
-    (shouldRedirect: boolean) => {
-      if (toastIdRef.current) {
-        toast.dismiss(toastIdRef.current);
-        toastIdRef.current = null;
-
-        if (shouldRedirect) {
-          router.push("/");
-        }
-      }
-    },
-    [router]
-  );
-
-  // Get toast configuration based on error type
   const getToastConfig = useCallback(
     (
       verifyData: NonNullable<UseVerifyToastOptions["verifyData"]>
     ): ToastConfig => {
-      // Server error (500)
       if (parseInt(verifyData?.status) === 500) {
         return {
           ...TOAST_CONFIG.SERVER_ERROR,
@@ -48,10 +32,6 @@ export function useVerifyToast({
         };
       }
 
-      // const isTokenInvalid = TOKEN_ERROR_TYPES.isInvalid(verifyData.error);
-      // const isTokenExpired = TOKEN_ERROR_TYPES.isExpired(verifyData.error);
-
-      // Invalid token
       if (isTokenInvalid) {
         return {
           ...TOAST_CONFIG.TOKEN_INVALID,
@@ -60,7 +40,6 @@ export function useVerifyToast({
         };
       }
 
-      // Expired token
       if (isTokenExpired) {
         return {
           message: verifyData.error,
@@ -70,7 +49,6 @@ export function useVerifyToast({
         };
       }
 
-      // Default error
       return {
         message: verifyData.error || TOAST_CONFIG.DEFAULT.message,
         duration: TOAST_CONFIG.DEFAULT.duration,
@@ -78,40 +56,35 @@ export function useVerifyToast({
         enableClickDismiss: false,
       };
     },
-    []
+    [isTokenInvalid, isTokenExpired]
   );
 
   useEffect(() => {
-    // Early returns
     if (!isClient || !verifyData || verifyData.success) return;
 
     const config = getToastConfig(verifyData);
 
-    // Show toast
     const id = toast.error(config.message, {
-      duration: config?.duration,
-      description: config?.description,
+      duration: config.duration,
+      description: config.description,
     });
 
-    toastIdRef.current = id;
-
-    // Setup click dismiss if enabled
-    if (!config.enableClickDismiss) return;
-
-    const clickHandler = () => handleDismiss(config.shouldRedirect);
-
-    const timer = setTimeout(() => {
-      document.addEventListener("click", clickHandler, { once: true });
-    }, 300);
+    setToastId(id);
 
     return () => {
-      clearTimeout(timer);
-      document.removeEventListener("click", clickHandler);
-      if (toastIdRef.current) {
-        toast.dismiss(toastIdRef.current);
-      }
+      toast.dismiss(id);
+      setToastId(null);
     };
-  }, [verifyData, isClient, getToastConfig, handleDismiss]);
+  }, [verifyData, isClient, getToastConfig]);
+
+  useToastClickAway(toastId, {
+    enabled: isTokenInvalid,
+    delay: 300,
+    onDismiss: () => {
+      router.push("/");
+      setToastId(null);
+    },
+  });
 
   return {
     isTokenInvalid,

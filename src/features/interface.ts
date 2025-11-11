@@ -11,16 +11,36 @@ export interface RegisterPayload {
   password: string;
 }
 
+export type LoginPayload = Omit<RegisterPayload, "username">;
+
 export interface ResendVerificationPayload {
   email: string;
 }
 
 export interface RegisterResponse extends ResponseAPI {
+  status: string;
+  message: string;
   data: {
     id: string;
     email: string;
     username: string;
     createdAt: string;
+  };
+}
+
+interface User {
+  id: string;
+  email: string;
+  username: string;
+  firstName: string | null;
+  lastName: string | null;
+  avatar: string | null;
+  createdAt: string;
+}
+
+export interface LoginResponse extends Omit<RegisterPayload, "data"> {
+  data: {
+    user: User;
   };
 }
 
@@ -70,4 +90,11 @@ export interface ToastConfig {
 export interface ResendVerificationProps {
   title: string;
   isSuccess: boolean;
+}
+
+export interface AuthStore {
+  user: User | null;
+  setUser: (user: User | null) => void;
+  clearUser: () => void;
+  isAuthenticated: () => boolean;
 }

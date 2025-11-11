@@ -15,6 +15,7 @@ export const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // const AUTH_PUBLIC_ROUTES = [
@@ -80,7 +81,6 @@ apiClient.interceptors.response.use(
     if (error.response) {
       if (error.response.status === 401) {
         // console.warn("Unauthorized — mungkin token expired.");
-
         // TODO: refresh token otomatis / redirect ke login
         // Contoh (pseudo):
         // if (refreshAvailable()) await refreshToken();

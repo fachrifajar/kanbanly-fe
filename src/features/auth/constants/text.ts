@@ -39,7 +39,7 @@ export const VERIFY_TEXT = {
 
   TITLE_EXPIRED: "Token Expired",
   DESCRIPTION_EXPIRED:
-    "This verification token has expired. Please request a new verification email.",
+    "This verification token has expired. Please request a new verification token.",
   BUTTON_EXPIRED: "Resend Verification Email",
 
   TITLE_INVALID: "Verification Failed",

@@ -53,13 +53,15 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               {...email}
             />
 
-            <Input
-              id="username"
-              type="text"
-              required
-              label="Username"
-              {...username}
-            />
+            {type === "register" && (
+              <Input
+                id="username"
+                type="text"
+                required
+                label="Username"
+                {...username}
+              />
+            )}
 
             <Input
               id="password"
@@ -69,13 +71,15 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               {...password}
             />
 
-            <Input
-              id="confirm-password"
-              type="password"
-              required
-              label="Confirm Password"
-              {...confirmPassword}
-            />
+            {type === "register" && (
+              <Input
+                id="confirm-password"
+                type="password"
+                required
+                label="Confirm Password"
+                {...confirmPassword}
+              />
+            )}
 
             <Button
               className="w-full mt-2"
@@ -83,7 +87,7 @@ export const AuthForm = ({ type }: AuthFormProps) => {
               isLoading={isPending}
               type="submit"
             >
-              Register
+              {type === "login" ? "Login" : "Register"}
             </Button>
           </form>
         </CardContent>

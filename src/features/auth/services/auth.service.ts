@@ -4,6 +4,8 @@ import {
   RegisterPayload,
   RegisterResponse,
   ResendVerificationPayload,
+  LoginPayload,
+  LoginResponse,
   // VerifyRegisterTokenResponse,
 } from "@/features/interface";
 
@@ -13,6 +15,11 @@ export const AuthService = {
       API_ENDPOINTS?.auth?.register,
       payload
     );
+    return data;
+  },
+
+  async login(payload: LoginPayload): Promise<LoginResponse> {
+    const { data } = await apiClient.post(API_ENDPOINTS?.auth?.login, payload);
     return data;
   },
 

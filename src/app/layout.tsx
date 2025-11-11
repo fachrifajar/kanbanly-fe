@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar, ThemeProvider, SonnerProvider } from "@/shared/components";
 import { ReactQueryProvider } from "@/lib/react-query";
+import { ZustandHydration } from "@/shared/zustand-hydration";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,19 +31,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReactQueryProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navbar />
-            <div>{children}</div>
-            {/* ✅ Toaster HARUS di luar {children}! */}
-            <SonnerProvider />
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <ZustandHydration>
+          <ReactQueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navbar />
+              <div>{children}</div>
+              {/* ✅ Toaster HARUS di luar {children}! */}
+              <SonnerProvider />
+            </ThemeProvider>
+          </ReactQueryProvider>
+        </ZustandHydration>
       </body>
     </html>
   );

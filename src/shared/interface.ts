@@ -14,3 +14,9 @@ export interface PageSearchParams<
 > {
   searchParams: T;
 }
+
+export interface UseToastClickAwayOptions {
+  enabled?: boolean;
+  delay?: number;
+  onDismiss?: () => void;
+}
